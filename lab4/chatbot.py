@@ -35,6 +35,7 @@ def main():
     dispatcher.add_handler(chatgpt_handler)
     dispatcher.add_handler(CommandHandler("add", add))
     dispatcher.add_handler(CommandHandler("help", help_command))
+    dispatcher.add_handler(CommandHandler("hello", hello_command))
     # To start the bot:
     updater.start_polling()
     updater.idle()
@@ -59,7 +60,15 @@ def add(update: Update, context: CallbackContext) -> None:
             redis1.get(msg) + ' times.')
     except (IndexError, ValueError):
         update.message.reply_text('Usage: /add <keyword>')
-
+#add /hello command
+def hello_command(update: Update, context: CallbackContext) -> None:
+    """Send a message when the command /hello is issued."""
+    try:
+        logging.info(context.args[0])
+        msg = context.args[0] # /hello keyword <-- this should store the keyword
+        update.message.reply_text('Good day, ' + msg +'!')
+    except (IndexError, ValueError):
+        update.message.reply_text('Usage: /add <keyword>')
 def equiped_chatgpt(update, context):
     global chatgpt
     reply_message = chatgpt.submit(update.message.text)
