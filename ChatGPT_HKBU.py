@@ -1,15 +1,17 @@
-import configparser
+#import configparser
+import os
 import requests
 class HKBU_ChatGPT():
     def __init__(self,config_='./config.ini'):
-        if type(config_) == str:
-            self.config = configparser.ConfigParser()
-            self.config.read(config_)
-        elif type(config_) == configparser.ConfigParser:
-            self.config = config_
+        # Read configuration from environment variables
+        self.basic_url = os.environ.get('CHATGPT_BASICURL')
+        self.model_name = os.environ.get('CHATGPT_MODELNAME')
+        self.api_version = os.environ.get('CHATGPT_APIVERSION')
+        self.access_token = os.environ.get('CHATGPT_ACCESS_TOKEN')
+
     def submit(self,message):
         conversation = [{"role": "user", "content": message}]
-        url = (self.config['CHATGPT']['BASICURL'])        +"/deployments/" + (self.config['CHATGPT']['MODELNAME'])         +"/chat/completions/?api-version="         +(self.config['CHATGPT']['APIVERSION'])
+        url = f"{self.basic_url}/deployments/{self.model_name}/chat/completions/?api-version={self.api_version}"
         headers = { 'Content-Type': 'application/json',
         'api-key': (self.config['CHATGPT']['ACCESS_TOKEN']) }
         payload = { 'messages': conversation }
