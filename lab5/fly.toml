@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for lab4-frosty-sound-86 on 2025-03-15T09:08:31+08:00
+# fly.toml app configuration file generated for chatbot-maggieli on 2025-03-15T09:50:25+08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'chatbot'
+app = 'chatbot-maggieli'
 primary_region = 'hkg'
 
 [build]
@@ -20,9 +20,11 @@ primary_region = 'hkg'
     hard_limit = 25
     soft_limit = 20
     type = "connections"
+  
   [[services.ports]]
     handlers = ["http"]
     port = 80
+  
   [[services.ports]]
     handlers = ["tls", "http"]
     port = 443
